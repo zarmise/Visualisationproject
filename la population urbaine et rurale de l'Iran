@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+body { font: 12px Arial;}
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+.legend {
+    font-size: 16px;
+    font-weight: bold;
+    text-anchor: middle;
+}
+</style>
+<body>
+  <h1>Graphique à barres empilées de la population urbaine et rurale de l'Iran</h1>
+<div id="d3id" ></div>
+<!-- load the d3.js library -->    
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<!-- Create a div where the graph will take place -->
+<div>
+  <svg id="my_dataviz" height=600 width=2000></svg>
+</div>
+  <script>
+
+// select the svg area
+var svg = d3.select("#my_dataviz")
+
+// Handmade legend
+svg.append("circle").attr("cx",1000).attr("cy",10).attr("r", 6).style("fill", "blue")
+svg.append("circle").attr("cx",1000).attr("cy",30).attr("r", 6).style("fill", "red")
+svg.append("text").attr("x", 1020).attr("y", 10).text("Population rurale").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 1020).attr("y", 30).text("Population urbaine").style("font-size", "15px").attr("alignment-baseline","middle")
+
+</script>
+<script>
+var models = [
+  {
+    "model_name":"1956",
+    "field1":12952082,
+    "field2":5953563
+  },
+  {
+    "model_name":"1966",
+    "field1":15284677,
+    "field2":9794246
+  },
+  {
+    "model_name":"1976",
+    "field1":17506252,
+    "field2":15854680
+  },
+  {
+    "model_name":"1986",
+    "field1":26349351,
+    "field2":26844561
+  },
+  {
+    "model_name":"1991",
+    "field1":23636591,
+    "field2":31836598
+  },
+  {
+    "model_name":"1996",
+    "field1":23026293,
+    "field2":36817789
+  },
+  {
+    "model_name":"2006",
+    "field1":22131101,
+    "field2":48259964
+  },
+  {
+    "model_name":"2011",
+    "field1":21446783,
+    "field2":53646661
+  },
+  {
+    "model_name":"2016",
+    "field1":20730625,
+    "field2":59146847
+  }
+];
+models = models.map(i => {
+  i.model_name = i.model_name;
+	return i;
+});
+
+var container = d3.select('#d3id'),
+    width = 1000,
+    height = 300,
+    margin = {top: 30, right: 20, bottom: 30, left: 100},
+    barPadding = .2,
+    axisTicks = {qty: 5, outerSize: 0, dateFormat: '%m-%d'};
+
+var svg = container
+   .append("svg")
+   .attr("width", width)
+   .attr("height", height)
+   .append("g")
+   .attr("transform", `translate(${margin.left},${margin.top})`);
+
+var xScale0 = d3.scaleBand().range([0, width - margin.left - margin.right]).padding(barPadding);
+var xScale1 = d3.scaleBand();
+var yScale = d3.scaleLinear().range([height - margin.top - margin.bottom, 0]);
+
+var xAxis = d3.axisBottom(xScale0).tickSizeOuter(axisTicks.outerSize);
+var yAxis = d3.axisLeft(yScale).ticks(axisTicks.qty).tickSizeOuter(axisTicks.outerSize);
+
+xScale0.domain(models.map(d => d.model_name));
+xScale1.domain(['field1', 'field2']).range([0, xScale0.bandwidth()]);
+yScale.domain([0, d3.max(models, d => d.field1 > d.field2 ? d.field1 : d.field2)]);
+
+var model_name = svg.selectAll(".model_name")
+  .data(models)
+  .enter().append("g")
+  .attr("class", "model_name")
+  .attr("transform", d => `translate(${xScale0(d.model_name)},0)`);
+
+/* Add field1 bars */
+model_name.selectAll(".bar.field1")
+  .data(d => [d])
+  .enter()
+  .append("rect")
+  .attr("class", "bar field1")
+.style("fill","blue")
+  .attr("x", d => xScale1('field1'))
+  .attr("y", d => yScale(d.field1))
+  .attr("width", xScale1.bandwidth())
+  .attr("height", d => {
+    return height - margin.top - margin.bottom - yScale(d.field1)
+  });
+  
+/* Add field2 bars */
+model_name.selectAll(".bar.field2")
+  .data(d => [d])
+  .enter()
+  .append("rect")
+  .attr("class", "bar field2")
+.style("fill","red")
+  .attr("x", d => xScale1('field2'))
+  .attr("y", d => yScale(d.field2))
+  .attr("width", xScale1.bandwidth())
+  .attr("height", d => {
+    return height - margin.top - margin.bottom - yScale(d.field2)
+  });
+ 
+// Add the X Axis
+svg.append("g")
+   .attr("class", "x axis")
+   .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
+   .call(xAxis);
+
+// Add the Y Axis
+svg.append("g")
+   .attr("class", "y axis")
+   .call(yAxis); 
+
+</script>
+</body>
+
+
