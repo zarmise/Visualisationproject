@@ -1,5 +1,5 @@
 // Paramètres de la visualisation
-const width = 600;
+const width = 1200;
 const height = 300;
 const margin = { top: 20, right: 0, bottom: 20, left: 100 };
 
@@ -12,7 +12,18 @@ const populations = [
   { name: "1970", count: 28513866 , color: 'yellowgreen' },
   { name: "1975", count: 32729772 , color: 'gold' },
   { name: "1980", count: 38650246 , color: 'red' },
-  { name: "1985", count: 47347186 , color: 'orangered' }
+  { name: "1985", count: 47347186 , color: 'orangered' },
+  { name: "1990", count: 56366217 , color: 'blue' },
+  { name: "1995", count: 61442664 , color: 'brown' },
+  { name: "2000", count: 65623405 , color: 'darkblue' },
+  { name: "2005", count: 69762347 , color: 'grey' },
+  { name: "2010", count: 73762519 , color: 'darkgrey' },
+  { name: "2015", count: 78492215 , color: 'green' },
+  { name: "2016", count: 79563989 , color: 'darkorange' },
+  { name: "2017", count: 80673883 , color: 'pink' },
+  { name: "2018", count: 81800188 , color: 'purple' },
+  { name: "2019", count: 82913906 , color: 'eggplant' },
+  { name: "2020", count: 83992949 , color: 'darkred' }
 ];
 
 // Créer l'élément SVG et le configurer
@@ -73,4 +84,3 @@ svg.append('g')
    .call(d3.axisLeft(y))
    .call(g => g.select('.domain').remove())
 
-// Source: https://observablehq.com/@d3/learn-d3-scales
