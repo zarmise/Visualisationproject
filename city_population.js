@@ -71,4 +71,3 @@ svg.append('g')
    .call(d3.axisLeft(y))
    .call(g => g.select('.domain').remove())
 
-// Source: https://observablehq.com/@d3/learn-d3-scales
