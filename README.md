@@ -1,6 +1,7 @@
 # Visualisationproject
 
-Le titre de projet: Représentation visuelle de la population d’Iran
+Le titre de projet: 
+Représentation visuelle de la population d’Iran
 
 C'est un travail d'équipe qu'il s’agit de représentation visuelle des données de la population d’Iran en trois parties et visualisations différentes : 
 •	La première  partie fait par Maryam Zoee, indique la distribution de la population d’Iran par l’urbaine proportion et aussi la population rurale depuis l’année 1965 et aussi une pyramide des âges.
